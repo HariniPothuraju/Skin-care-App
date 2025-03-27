@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ingredient Checker 🔍</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>🔍 Ingredient Checker</h1>
+        <p>Enter an ingredient to check if it's safe for your skin type!</p>
+        
+        <label for="skinType">Select Your Skin Type:</label>
+        <select id="skinType">
+            <option value="oily">Oily</option>
+            <option value="dry">Dry</option>
+            <option value="sensitive">Sensitive</option>
+            <option value="normal">Normal</option>
+        </select>
+
+        <input type="text" id="ingredientInput" placeholder="Enter ingredient..." />
+        <button onclick="checkIngredient()">Check 🔍</button>
+
+        <div id="result"></div>
+    </div>
+
+    <script>
+        const ingredientDatabase = {
+            "oily": {
+                good: ["Salicylic Acid", "Niacinamide", "Hyaluronic Acid"],
+                bad: ["Coconut Oil", "Lanolin", "Isopropyl Myristate"]
+            },
+            "dry": {
+                good: ["Shea Butter", "Glycerin", "Hyaluronic Acid"],
+                bad: ["Alcohol", "Benzoyl Peroxide", "Fragrances"]
+            },
+            "sensitive": {
+                good: ["Aloe Vera", "Ceramides", "Centella Asiatica"],
+                bad: ["Fragrances", "Alcohol", "Essential Oils"]
+            },
+            "normal": {
+                good: ["Vitamin C", "Hyaluronic Acid", "Peptides"],
+                bad: ["Artificial Fragrances", "Harsh Alcohols"]
+            }
+        };
+
+        function checkIngredient() {
+            const ingredient = document.getElementById("ingredientInput").value.trim();
+            const skinType = document.getElementById("skinType").value;
+            const resultDiv = document.getElementById("result");
+
+            if (!ingredient) {
+                resultDiv.innerHTML = "⚠️ Please enter an ingredient.";
+                return;
+            }
+
+            const { good, bad } = ingredientDatabase[skinType];
+            let message = `<strong>${ingredient}</strong>: `;
+
+            if (good.includes(ingredient)) {
+                message += "<span style='color: green;'>✅ Good for your skin!</span>";
+            } else if (bad.includes(ingredient)) {
+                message += "<span style='color: red;'>❌ Not suitable for your skin.</span>";
+            } else {
+                message += "<span style='color: gray;'>⚠️ No data available.</span>";
+            }
+
+            resultDiv.innerHTML = message;
+        }
+    </script>
+
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: url('your-background-image.jpg') no-repeat center center fixed;
+            background-size: cover;
+        }
+
+        .container {
+            max-width: 500px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+        }
+
+        h1, p {
+            color: #333;
+        }
+
+        input, select, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+    </style>
+    <style>
+        /* Background image applied to the full page */
+        body {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin: 0;
+            padding: 0;
+            background: url('https://bromabakery.com/wp-content/uploads/2019/02/Broke-Girls-Guide-to-Skincare-3-1067x1600.jpg') no-repeat center center fixed;
+            background-size: cover;
+            color: white; /* Makes text visible on dark backgrounds */
+        }
+
+        /* Container with a semi-transparent white background */
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background: rgba(0, 0, 0, 0.7); /* Dark semi-transparent box */
+            border-radius: 10px;
+            box-shadow: 0 0 15px rgba(255, 255, 255, 0.4);
+        }
+
+        /* Styling for text */
+        h1 {
+            color: gold;
+        }
+
+        h2, h3, p, label {
+            color: white;
+        }
+
+        /* Skin type info section */
+        .skin-info {
+            text-align: left;
+            background: rgba(255, 255, 255, 0.1);
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+        }
+
+        .skin-info ul {
+            list-style: none;
+            padding: 0;
+        }
+
+        .skin-info li {
+            margin: 5px 0;
+            font-size: 16px;
+        }
+
+        /* Input fields and dropdown */
+        input, select, button {
+            margin: 10px;
+            padding: 10px;
+            font-size: 16px;
+            border-radius: 5px;
+            border: 1px solid #ccc;
+        }
+
+        /* Button styles */
+        button {
+            background: #28a745;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+
+        button:hover {
+            background: #218838;
+        }
+
+        /* Result message */
+        #result {
+            margin-top: 15px;
+            font-size: 18px;
+        }
+    </style>
+
+</body>
+</html>

@@ -1,0 +1,342 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowDerm - Contact & Feedback</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF7D7D;
+            --secondary-color: #8B80F8;
+            --text-color: #3A3A3A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #FFF9F5;
+            color: var(--text-color);
+        }
+
+        .contact-container {
+            padding: 5rem 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+        }
+
+        .contact-info {
+            background: rgba(255, 125, 125, 0.05);
+            padding: 2rem;
+            border-radius: 20px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .contact-info::before {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: -50px;
+            width: 100px;
+            height: 100px;
+            background: var(--primary-color);
+            border-radius: 50%;
+            opacity: 0.1;
+        }
+
+        .contact-card {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            padding: 1rem;
+            border-radius: 10px;
+            transition: transform 0.3s;
+            background: white;
+        }
+
+        .contact-card:hover {
+            transform: translateX(10px);
+        }
+
+        .rating-system {
+            display: flex;
+            gap: 5px;
+            margin: 1rem 0;
+        }
+
+        .rating-star {
+            font-size: 1.5rem;
+            color: #ddd;
+            cursor: pointer;
+            transition: color 0.3s, transform 0.3s;
+        }
+
+        .rating-star:hover,
+        .rating-star.active {
+            color: #ffd700;
+            transform: scale(1.2);
+        }
+
+        .feedback-form {
+            background: white;
+            padding: 2rem;
+            border-radius: 20px;
+            box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+        }
+
+        .form-group {
+            margin: 1.5rem 0;
+            position: relative;
+        }
+
+        .form-input {
+            width: 100%;
+            padding: 1rem;
+            border: 2px solid #eee;
+            border-radius: 8px;
+            transition: border-color 0.3s;
+        }
+
+        .form-input:focus {
+            outline: none;
+            border-color: var(--primary-color);
+        }
+
+        .floating-label {
+            position: absolute;
+            left: 1rem;
+            top: 50%;
+            transform: translateY(-50%);
+            background: white;
+            padding: 0 5px;
+            transition: 0.3s;
+            pointer-events: none;
+            color: #999;
+        }
+
+        .form-input:focus ~ .floating-label,
+        .form-input:not(:placeholder-shown) ~ .floating-label {
+            top: 0;
+            font-size: 0.8em;
+            color: var(--primary-color);
+        }
+
+        .emoji-rating {
+            display: flex;
+            justify-content: space-between;
+            margin: 1rem 0;
+        }
+
+        .emoji-option {
+            font-size: 2rem;
+            cursor: pointer;
+            opacity: 0.5;
+            transition: 0.3s;
+        }
+
+        .emoji-option.active {
+            opacity: 1;
+            transform: scale(1.2);
+        }
+
+        .submit-btn {
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            border: none;
+            padding: 1rem 2rem;
+            border-radius: 50px;
+            cursor: pointer;
+            transition: transform 0.3s;
+            width: 100%;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-3px);
+        }
+
+        .success-message {
+            display: none;
+            background: #8B80F8;
+            color: white;
+            padding: 1rem;
+            border-radius: 10px;
+            text-align: center;
+            margin-top: 1rem;
+            animation: float 2s ease-in-out infinite;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-5px); }
+        }
+
+        @media (max-width: 768px) {
+            .contact-container {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <div class="contact-card">
+                <i class="fas fa-map-marker-alt fa-2x" style="margin-right: 1rem;"></i>
+                <div>
+                    <h3>Our Clinic</h3>
+                    <p>123 Skin Care Street<br>Beauty City, BC 12345</p>
+                </div>
+            </div>
+            <div class="contact-card">
+                <i class="fas fa-phone-alt fa-2x" style="margin-right: 1rem;"></i>
+                <div>
+                    <h3>Call Us</h3>
+                    <p>9392830249<br>Mon-Sat: 9AM - 7PM</p>
+                </div>
+            </div>
+            </div>
+
+        <div class="feedback-form">
+            <h2>Share Your Experience</h2>
+            <form id="feedbackForm" onsubmit="return handleSubmit(event)">
+                <div class="form-group">
+                    <input type="text" class="form-input" placeholder=" " required>
+                    <label class="floating-label">Your Name</label>
+                </div>
+                
+                <div class="form-group">
+                    <input type="email" class="form-input" placeholder=" " required>
+                    <label class="floating-label">Your Email</label>
+                </div>
+
+                <div class="emoji-rating">
+                    <span class="emoji-option">😞</span>
+                    <span class="emoji-option">😐</span>
+                    <span class="emoji-option">😊</span>
+                    <span class="emoji-option">😍</span>
+                </div>
+
+                <div class="rating-system">
+                    <i class="fas fa-star rating-star"></i>
+                    <i class="fas fa-star rating-star"></i>
+                    <i class="fas fa-star rating-star"></i>
+                    <i class="fas fa-star rating-star"></i>
+                    <i class="fas fa-star rating-star"></i>
+                </div>
+
+                <div class="form-group">
+                    <textarea class="form-input" placeholder=" " rows="5" required></textarea>
+                    <label class="floating-label">Your Feedback</label>
+                </div>
+
+                <button type="submit" class="submit-btn">Send Feedback</button>
+                <div class="success-message">Thank you! Your feedback has been received ✨</div>
+            </form>
+        </div>
+    </div>
+
+    <script>
+        // Star Rating System
+        const stars = document.querySelectorAll('.rating-star');
+        let currentRating = 0;
+
+        stars.forEach((star, index) => {
+            star.addEventListener('click', () => {
+                currentRating = index + 1;
+                stars.forEach((s, i) => {
+                    s.classList.toggle('active', i <= index);
+                });
+            });
+        });
+
+        // Emoji Rating
+        const emojis = document.querySelectorAll('.emoji-option');
+        emojis.forEach((emoji, index) => {
+            emoji.addEventListener('click', () => {
+                emojis.forEach(e => e.classList.remove('active'));
+                emoji.classList.add('active');
+            });
+        });
+
+        // Form Submission
+        function handleSubmit(event) {
+            event.preventDefault();
+            if (currentRating === 0) {
+                alert('Please select a rating');
+                return false;
+            }
+
+            document.querySelector('.success-message').style.display = 'block';
+            event.target.reset();
+            stars.forEach(star => star.classList.remove('active'));
+            emojis.forEach(emoji => emoji.classList.remove('active'));
+            currentRating = 0;
+            
+            setTimeout(() => {
+                document.querySelector('.success-message').style.display = 'none';
+            }, 3000);
+            
+            return false;
+        }
+
+        // Floating Label Animation
+        document.querySelectorAll('.form-input').forEach(input => {
+            input.addEventListener('input', () => {
+                const label = input.nextElementSibling;
+                if (input.value.trim() !== '') {
+                    label.style.top = '0';
+                    label.style.fontSize = '0.8em';
+                    label.style.color = 'var(--primary-color)';
+                } else {
+                    label.style.top = '50%';
+                    label.style.fontSize = '1em';
+                    label.style.color = '#999';
+                }
+            });
+        });
+    </script>
+<style>
+        /* Previous CSS remains same */
+    </style>
+</head>
+<body>
+    <div class="contact-container">
+        <div class="contact-info">
+            <h2>Get in Touch</h2>
+            <div class="contact-card">
+                <i class="fas fa-map-marker-alt fa-2x" style="margin-right: 1rem;"></i>
+                <div>
+                    <h3>Our Clinic</h3>
+                    <p>456 Skincare Lane<br>Visakhapatnam, AP 530001</p>
+                </div>
+            </div>
+            <!-- Other contact cards remain same -->
+            <div class="map-container">
+                <iframe 
+                    src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d124281.03548932436!2d83.16973560000001!3d17.7231276!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x3a39431389e6973f%3A0x92a9c53cfe4b5f9e!2sVisakhapatnam%2C%20Andhra%20Pradesh!5e0!3m2!1sen!2sin!4v1717758953209!5m2!1sen!2sin" 
+                    width="100%" 
+                    height="200" 
+                    style="border:0;" 
+                    allowfullscreen="" 
+                    loading="lazy" 
+                    title="Andhra Pradesh Location">
+                </iframe>
+            </div>
+        </div>
+
+        <!-- Feedback form section remains same -->
+    </div>
+
+    <!-- Previous JavaScript remains same -->
+
+</body>
+</html>

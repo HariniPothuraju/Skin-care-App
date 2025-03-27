@@ -1,0 +1,237 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowDerm - About Us</title>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css">
+    <style>
+        :root {
+            --primary-color: #FF7D7D;
+            --secondary-color: #8B80F8;
+            --text-color: #3A3A3A;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Poppins', sans-serif;
+        }
+
+        body {
+            background: #FFF9F5;
+            color: var(--text-color);
+        }
+
+        .header {
+            height: 80vh;
+            background: linear-gradient(rgba(255, 125, 125, 0.1), rgba(139, 128, 248, 0.1)),
+                        url('https://product-images-cdn.liketoknow.it/b_Y77YwKzKbGZz0dFdNtArwoA2jr1x0YkZ6MDTyUJ.MWS.SoaowJsXJwiGPlXjfPqRLFekirPbYq46nvVCWDnjvPVw4BHIftDjAEeFr9nA1byJw1XQNWNWWNjyOLVuq6EC7uRvxU.4gTwuu.iznpZHW83xj4qk4ebnRAG6a.Za6bTlEBc56enOearfY-?v=0&auto=format&fm=webp&w=450&q=80&dpr=2');
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: relative;
+        }
+
+        .header-content {
+            text-align: center;
+            color: white;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .mission-section {
+            padding: 5rem 10%;
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 3rem;
+            background: white;
+        }
+
+        .mission-card {
+            padding: 2rem;
+            border-radius: 15px;
+            transition: transform 0.3s;
+            background: linear-gradient(145deg, #ffffff, #fff9f5);
+            box-shadow: 5px 5px 15px rgba(0,0,0,0.1);
+        }
+
+        .mission-card:hover {
+            transform: translateY(-10px);
+        }
+
+        .team-section {
+            padding: 5rem 10%;
+            background: #F8F5FF;
+        }
+
+        .team-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin-top: 3rem;
+        }
+
+        .team-member {
+            position: relative;
+            overflow: hidden;
+            border-radius: 15px;
+            cursor: pointer;
+            transform-style: preserve-3d;
+            transition: transform 0.6s;
+        }
+
+        .team-member:hover {
+            transform: rotateY(180deg);
+        }
+
+        .team-front, .team-back {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            backface-visibility: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            padding: 2rem;
+        }
+
+        .team-front {
+            background: white;
+        }
+
+        .team-back {
+            background: var(--primary-color);
+            transform: rotateY(180deg);
+            color: white;
+        }
+
+        .skincare-quiz {
+            padding: 5rem 10%;
+            background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
+            color: white;
+            text-align: center;
+        }
+
+        .quiz-container {
+            background: rgba(255, 255, 255, 0.1);
+            padding: 2rem;
+            border-radius: 15px;
+            margin-top: 2rem;
+        }
+
+        .ingredient-animation {
+            width: 100px;
+            height: 100px;
+            background: white;
+            border-radius: 50%;
+            animation: float 3s ease-in-out infinite;
+            margin: 2rem auto;
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-20px); }
+        }
+
+        @media (max-width: 768px) {
+            .mission-section {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="header-content">
+            <h1>Our Passion for Healthy Skin</h1>
+            <p>Expert Care Since 2025</p>
+        </div>
+    </header>
+
+    <section class="mission-section">
+        <div class="mission-card">
+            <i class="fas fa-seedling fa-2x"></i>
+            <h2>Natural Ingredients</h2>
+            <p>We source only the purest natural ingredients from sustainable sources worldwide.</p>
+        </div>
+        <div class="mission-card">
+            <i class="fas fa-flask fa-2x"></i>
+            <h2>Scientific Approach</h2>
+            <p>Combining nature's goodness with cutting-edge dermatological research.</p>
+        </div>
+    </section>
+
+    <section class="team-section">
+        <h2>Our Expert Team</h2>
+        <div class="team-grid">
+            <div class="team-member">
+                <div class="team-front">
+                    <img src="dermatologist1.jpg" alt="Dr. Sarah" style="width: 100px; border-radius: 50%;">
+                    <h3>Dr. Sarah Johnson</h3>
+                    <p>Lead Dermatologist</p>
+                </div>
+                <div class="team-back">
+                    <p>15+ years experience in cosmetic dermatology</p>
+                    <div class="social-links">
+                        <i class="fab fa-linkedin"></i>
+                        <i class="fab fa-researchgate"></i>
+                    </div>
+                </div>
+            </div>
+            <!-- Add more team members -->
+        </div>
+    </section>
+
+    <section class="skincare-quiz">
+        <h2>Find Your Perfect Routine</h2>
+        <div class="quiz-container">
+            <p>What's your main skin concern?</p>
+            <select id="skinConcern">
+                <option value="acne">Acne</option>
+                <option value="aging">Aging</option>
+                <option value="dryness">Dryness</option>
+            </select>
+            <button onclick="showRecommendation()">Get Recommendation</button>
+            <div id="result" style="display: none;"></div>
+        </div>
+        <div class="ingredient-animation"></div>
+    </section>
+
+    <script>
+        function showRecommendation() {
+            const concern = document.getElementById('skinConcern').value;
+            const results = {
+                acne: "Try our Salicylic Acid Cleanser and Tea Tree Oil Serum",
+                aging: "Our Retinol Night Cream and Vitamin C Serum are perfect for you",
+                dryness: "Hyaluronic Acid Moisturizer and Ceramide Cream will help"
+            };
+            document.getElementById('result').style.display = 'block';
+            document.getElementById('result').innerHTML = results[concern];
+        }
+
+        // Parallax effect for header
+        window.addEventListener('scroll', () => {
+            const header = document.querySelector('.header');
+            let scroll = window.pageYOffset;
+            header.style.backgroundPositionY = scroll * 0.5 + 'px';
+        });
+
+        // Team member animation
+        document.querySelectorAll('.team-member').forEach(member => {
+            member.addEventListener('mouseenter', () => {
+                member.style.transform = 'rotateY(180deg)';
+            });
+            member.addEventListener('mouseleave', () => {
+                member.style.transform = 'rotateY(0deg)';
+            });
+        });
+    </script>
+
+
+</body>
+</html>

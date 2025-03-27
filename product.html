@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>GlowCraft - Premium Skincare</title>
+    <style>
+        :root {
+            --primary: #6d597a;
+            --secondary: #b56576;
+            --accent: #e56b6f;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', sans-serif;
+        }
+
+        body {
+            background: #fff9fb;
+        }
+
+        .header {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 1rem 2rem;
+            position: sticky;
+            top: 0;
+            z-index: 100;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
+        }
+
+        .search-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .logo {
+            color: white;
+            font-size: 2rem;
+            font-weight: 700;
+            text-decoration: none;
+            letter-spacing: 1px;
+        }
+
+        .search-bar {
+            flex: 1;
+            padding: 14px 24px;
+            border-radius: 30px;
+            border: none;
+            font-size: 1rem;
+            background: rgba(255,255,255,0.9);
+            transition: all 0.3s;
+        }
+
+        .search-bar:focus {
+            outline: 2px solid var(--accent);
+        }
+
+        .cart-counter {
+            color: white;
+            font-size: 1.2rem;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            padding: 8px 16px;
+            border-radius: 20px;
+            background: rgba(255,255,255,0.2);
+            cursor: pointer;
+        }
+
+        .skin-type-nav {
+            background: #fff;
+            padding: 1rem;
+            position: sticky;
+            top: 60px;
+            z-index: 90;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+        }
+
+        .skin-type-buttons {
+            display: flex;
+            gap: 1rem;
+            overflow-x: auto;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 1rem;
+        }
+
+        .skin-type-btn {
+            padding: 10px 24px;
+            border-radius: 25px;
+            border: 1px solid #eee;
+            background: white;
+            cursor: pointer;
+            transition: all 0.3s;
+            white-space: nowrap;
+            font-weight: 500;
+            color: #666;
+        }
+
+        .skin-type-btn.active,
+        .skin-type-btn:hover {
+            background: var(--accent);
+            color: white;
+            border-color: var(--accent);
+            transform: translateY(-2px);
+        }
+
+        .products-grid {
+            max-width: 1200px;
+            margin: 3rem auto;
+            padding: 0 1rem;
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 2.5rem;
+        }
+
+        .product-card {
+            background: white;
+            border-radius: 20px;
+            padding: 1.5rem;
+            transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+            cursor: pointer;
+            position: relative;
+            overflow: hidden;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+        }
+
+        .product-card:hover {
+            transform: translateY(-8px);
+            box-shadow: 0 12px 25px rgba(0,0,0,0.12);
+        }
+
+        .product-image {
+            width: 100%;
+            height: 240px;
+            object-fit: contain;
+            border-radius: 12px;
+            transition: transform 0.3s;
+            margin-bottom: 1rem;
+        }
+
+        .product-price {
+            color: var(--secondary);
+            font-size: 1.5rem;
+            font-weight: 700;
+            margin: 1rem 0;
+        }
+
+        .add-to-cart {
+            background: var(--accent);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            cursor: pointer;
+            width: 100%;
+            transition: all 0.3s;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+        }
+
+        .add-to-cart:hover {
+            background: var(--secondary);
+            transform: scale(1.02);
+        }
+
+        .skin-type-tag {
+            background: var(--primary);
+            color: white;
+            padding: 6px 16px;
+            border-radius: 15px;
+            font-size: 0.8rem;
+            margin-bottom: 1rem;
+            display: inline-block;
+            font-weight: 500;
+        }
+
+        .image-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.9);
+            z-index: 1000;
+            justify-content: center;
+            align-items: center;
+            backdrop-filter: blur(5px);
+        }
+
+        .modal-image {
+            max-width: 80%;
+            max-height: 80%;
+            border-radius: 20px;
+            box-shadow: 0 0 30px rgba(255,255,255,0.2);
+            animation: modalOpen 0.3s ease-out;
+        }
+
+        .cart-modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            right: 0;
+            width: 400px;
+            height: 100%;
+            background: white;
+            box-shadow: -2px 0 10px rgba(0,0,0,0.1);
+            padding: 20px;
+            overflow-y: auto;
+            z-index: 1001;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 0;
+            border-bottom: 1px solid #eee;
+        }
+
+        .checkout-btn {
+            background: var(--primary);
+            color: white;
+            padding: 15px;
+            width: 100%;
+            border: none;
+            border-radius: 10px;
+            margin-top: 20px;
+            cursor: pointer;
+        }
+
+        @keyframes modalOpen {
+            from { transform: scale(0.8); opacity: 0; }
+            to { transform: scale(1); opacity: 1; }
+        }
+
+        @media (max-width: 768px) {
+            .search-container {
+                padding: 0.5rem;
+                gap: 1rem;
+            }
+            
+            .logo {
+                font-size: 1.5rem;
+            }
+            
+            .search-bar {
+                padding: 10px 16px;
+            }
+            
+            .cart-modal {
+                width: 100%;
+            }
+        }
+    </style>
+</head>
+<body>
+    <header class="header">
+        <div class="search-container">
+            <a href="#" class="logo">GlowCraft</a>
+            <input type="text" class="search-bar" placeholder="Search skincare products..." id="searchInput">
+            <div class="cart-counter" id="cartCounter">
+                🛒 <span id="cartCount">0</span>
+            </div>
+        </div>
+    </header>
+
+    <nav class="skin-type-nav">
+        <div class="skin-type-buttons">
+            <button class="skin-type-btn active" data-category="all">All Products</button>
+            <button class="skin-type-btn" data-category="dry">Dry Skin</button>
+            <button class="skin-type-btn" data-category="oily">Oily Skin</button>
+            <button class="skin-type-btn" data-category="sensitive">Sensitive Skin</button>
+            <button class="skin-type-btn" data-category="combination">Combination Skin</button>
+        </div>
+    </nav>
+
+    <div class="products-grid" id="productsGrid"></div>
+
+    <div class="image-modal" id="imageModal" onclick="closeModal()">
+        <img src="" class="modal-image" id="modalImage">
+    </div>
+
+    <div class="cart-modal" id="cartModal">
+        <h2>Your Cart (<span id="cartCountModal">0</span>)</h2>
+        <div id="cartItems"></div>
+        <div class="cart-total">
+            Total: $<span id="cartTotal">0.00</span>
+        </div>
+        <button class="checkout-btn" onclick="showBilling()">Proceed to Checkout</button>
+    </div>
+
+    <script>
+        const products = [
+            {
+                id: 1,
+                name: "Hyaluronic Acid Serum",
+                price: 42.99,
+                image: "https://images.unsplash.com/photo-1631729371254-42c2892f0e6e",
+                description: "Deep hydration booster with Vitamin B5",
+                category: "dry",
+                skinType: "Dry Skin Savior"
+            },
+            {
+                id: 2,
+                name: "Niacinamide Moisturizer",
+                price: 39.99,
+                image: "https://5.imimg.com/data5/SELLER/Default/2024/2/392145311/VM/OU/LD/9277553/10-niacinamide-serum-cream-gel-1000x1000.png",
+                description: "Oil-control formula with zinc PCA",
+                category: "oily",
+                skinType: "Oily Skin Solution"
+            },
+            {
+                id: 3,
+                name: "Ceramide Repair Cream",
+                price: 49.99,
+                image: "https://www.ceradan.com/wp-content/uploads/2020/09/Barrier-Cream-80g-2.jpeg",
+                description: "Barrier repair for sensitive skin",
+                category: "sensitive",
+                skinType: "Sensitive Skin Care"
+            },
+            {
+                id: 4,
+                name: "AHA/BHA Exfoliating Toner",
+                price: 34.99,
+                image: "https://images-static.nykaa.com/media/catalog/product/4/f/4f42b94CHEMI00000131_0.jpg?tr=w-344,h-344,cm-pad_resize",
+                description: "Dual-phase exfoliation for combination skin",
+                category: "combination",
+                skinType: "Combination Skin Expert"
+            },
+            {
+                id: 5,
+                name: "Vitamin C Brightening Serum",
+                price: 54.99,
+                image: "https://www.clinikally.com/cdn/shop/files/NiawhiteSerumNiacinamide_N-ButylResorcinol_TranexamicAcid_PAD-1.jpg?v=1723814070&width=800",
+                description: "Antioxidant-rich radiance booster",
+                category: "all",
+                skinType: "Universal Glow"
+            },
+          {
+            id: 6,
+            name: "Overnight Recovery Balm",
+            price: 59.99,
+            image: "https://a.cdnsbn.com/images/products/xl/24544900001.jpg",
+            description: "Ultra-rich nourishing treatment for dry skin",
+            category: "dry",
+            skinType: "Dry Skin Recovery"
+        },
+        {
+            id: 7,
+            name: "Tea Tree Spot Treatment",
+            price: 19.99,
+            image: "https://m.media-amazon.com/images/I/71jqvI5d-NL._SX466_.jpg",
+            description: "Targeted blemish control for oily skin",
+            category: "oily",
+            skinType: "Oily Skin Rescue"
+        },
+        {
+            id: 8,
+            name: "Hypoallergenic Facial Oil",
+            price: 49.99,
+            image: "https://encrypted-tbn0.gstatic.com/shopping?q=tbn:ANd9GcRZGNlMtKMcQIZBWmk7djd5FEGyJlFex7gwrxbh2IF88Ibv8QNuN1H5x6LCbNKKA46kV69ldIu3yOjDs2T9UpO4tzX4E0lmJRUmaZgXfuiK",
+            description: "Gentle nourishment for sensitive complexions",
+            category: "sensitive",
+            skinType: "Sensitive Skin Elixir"
+        },
+        {
+            id: 9,
+            name: "Dual Moisturizer",
+            price: 44.99,
+            image: "https://m.media-amazon.com/images/I/41ybdwuuFIL._SX300_SY300_QL70_FMwebp_.jpg",
+            description: "Zone-specific hydration for combination skin",
+            category: "combination",
+            skinType: "Combination Skin Balance"
+        },
+        {
+            id:10 ,
+            name: "Multi-Vitamin Serum",
+            price: 64.99,
+            image: "https://www.shopmissa.com/cdn/shop/files/Multi-Vitamin-Serum-Slides.jpg?v=1724273417",
+            description: "Complete antioxidant protection for all skin types",
+            category: "all",
+            skinType: "Universal Defense"
+        },
+
+        // New products
+        {
+            id: 11,
+            name: "Overnight Hydration Mask",
+            price: 49.99,
+            image: "https://encrypted-tbn2.gstatic.com/shopping?q=tbn:ANd9GcSQwrg4MfNAcnawaKsHMJkmLrWr1R8NjGtWTCTGyVD6TWDvCYcIlxiS4-HJIDDmmFx0SD2K1kvfwUtY6KjAFm4dFRZFt8X06YhkD9Bg9_8X1L3esiNRQx-i",
+            description: "Intensive night repair for dry skin",
+            category: "dry",
+            skinType: "Dry Skin Essential"
+        },
+        {
+            id: 12,
+            name: "Oil-Free Sunscreen SPF 50",
+            price: 29.99,
+            image: "https://innovist.com/cdn/shop/files/Ultra_Matte_56a8ecf7-3ca1-4397-b9d6-e4cc205283f1.png?v=1721133213&width=1800",
+            description: "Matte finish non-comedogenic protection",
+            category: "oily",
+            skinType: "Oily Skin Must-Have"
+        },
+        {
+            id: 13,
+            name: "Gentle Foaming Cleanser",
+            price: 24.99,
+            image: "https://encrypted-tbn1.gstatic.com/shopping?q=tbn:ANd9GcTmnRj6Gugr38_S_jrCuhi3xaZYLCxXQGo9RnE2RaaR6rEeMVm4A5VNrEdZIvJGi-nNYiEtdwXG3aRNItjwJ3Wly6GPv5YiS3sRADCzoPL31xK4OtXecmVTtg",
+            description: "pH-balanced sensitive skin formula",
+            category: "sensitive",
+            skinType: "Sensitive Skin Friendly"
+        },
+        {
+            id: 14,
+            name: "Pore Refining Toner",
+            price: 32.99,
+            image: "https://m.media-amazon.com/images/I/41pod0urNEL._SL1500_.jpg",
+            description: "Balances combination skin zones",
+            category: "combination",
+            skinType: "Combination Skin Hero"
+        },
+        {
+            id: 15,
+            name: "Antioxidant Face Oil",
+            price: 59.99,
+            image: "https://i.etsystatic.com/8023611/r/il/8dfba7/6352774573/il_1588xN.6352774573_c9s0.jpg",
+            description: "Universal nourishing facial oil",
+            category: "all",
+            skinType: "All Skin Types"
+        },
+        {
+            id: 16,
+            name: "Soothing Aloe Gel",
+            price: 19.99,
+            image: "https://m.media-amazon.com/images/I/31E5TbwwkaL._SX300_SY300_QL70_FMwebp_.jpg",
+            description: "Calming relief for sensitive skin",
+            category: "sensitive",
+            skinType: "Sensitive Skin Soother"
+        },
+        {
+            id: 17,
+            name: "Charcoal Detox Mask",
+            price: 39.99,
+            image: "https://www.urbangabru.in/cdn/shop/files/Urbangabru_peel_off_mask.webp?v=1695014650",
+            description: "Deep cleansing for oily skin",
+            category: "oily",
+            skinType: "Oily Skin Detox"
+        },
+        {
+            id: 18,
+            name: "Peptide Eye Cream",
+            price: 64.99,
+            image: "https://riveladermascience.com/cdn/shop/files/UntitledSession0586_1800x1800.jpg?v=1716365311",
+            description: "Anti-aging treatment for all skin types",
+            category: "all",
+            skinType: "Universal Anti-Aging"
+        },
+   {
+            id: 19,
+            name: "Honey Nourish Mask",
+            price: 39.99,
+            image: "https://luxebykan.com/cdn/shop/files/IMG-3092.png?v=1731585476&width=713",
+            description: "Deep hydration treatment for dry skin",
+            category: "dry",
+            skinType: "Dry Skin Luxury"
+        },
+        {
+            id: 20,
+            name: "Green Tea Matte Toner",
+            price: 29.99,
+            image: "https://m.media-amazon.com/images/I/31NqpNXSLCL._SX300_SY300_QL70_FMwebp_.jpg",
+            description: "Oil-control and pore refinement",
+            category: "oily",
+            skinType: "Oily Skin Perfector"
+        },
+        {
+            id: 21,
+            name: "Oatmeal Milk Cleanser",
+            price: 27.99,
+            image: "https://images.meesho.com/images/products/508774377/qun0b_512.webp",
+            description: "Ultra-gentle formula for sensitive skin",
+            category: "sensitive",
+            skinType: "Sensitive Skin Comfort"
+        },
+        {
+            id: 22,
+            name: "Zone Control Essence",
+            price: 54.99,
+            image: "https://gw.alicdn.com/imgextra/TB1JLOmupzqK1RjSZFoSuvfcXXa.jpg_q90.jpg",
+            description: "Adaptive hydration for combination skin",
+            category: "combination",
+            skinType: "Combination Skin Expert"
+        },
+        {
+            id: 23,
+            name: "Collagen Boost Cream",
+            price: 69.99,
+            image: "https://encrypted-tbn3.gstatic.com/shopping?q=tbn:ANd9GcRYIM7VssQd3d-y93V7Lqp0Y0QzZ4xTj4lQqE0eaAMAPNd0GF4P3C3gOi5MYYXuyVaNKGRwvpBirvQH1qmnuVviOhHrXJj0DNhFp6SlWZAWqw8xgcIS_XSaavE",
+            description: "Firming treatment for all skin types",
+            category: "all",
+            skinType: "Universal Anti-Aging"
+        }
+    ];
+
+
+        let cartItems = JSON.parse(localStorage.getItem('cart')) || [];
+
+        // Initialize
+        document.addEventListener('DOMContentLoaded', () => {
+            renderProducts(products);
+            updateCartCount();
+        });
+
+        // Product filtering
+        document.querySelectorAll('.skin-type-btn').forEach(button => {
+            button.addEventListener('click', () => {
+                document.querySelectorAll('.skin-type-btn').forEach(btn => 
+                    btn.classList.remove('active'));
+                button.classList.add('active');
+                const category = button.dataset.category;
+                const filteredProducts = category === 'all' 
+                    ? products 
+                    : products.filter(product => product.category === category);
+                renderProducts(filteredProducts);
+            });
+        });
+
+        // Render products
+        function renderProducts(productsArray) {
+            const grid = document.getElementById('productsGrid');
+            grid.innerHTML = productsArray.map(product => `
+                <div class="product-card">
+                    <img src="${product.image}" 
+                         class="product-image" 
+                         alt="${product.name}"
+                         onclick="openModal('${product.image}')">
+                    <div class="skin-type-tag">${product.skinType}</div>
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <div class="product-price">$${product.price}</div>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">
+                        Add to Cart
+                    </button>
+                </div>
+            `).join('');
+        }
+
+        // Cart functionality
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cartItems.push(product);
+            updateCartCount();
+            updateCartModal();
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+        }
+
+        function updateCartCount() {
+            document.getElementById('cartCount').textContent = cartItems.length;
+        }
+
+        // Image modal
+        function openModal(imageUrl) {
+            document.getElementById('imageModal').style.display = 'flex';
+            document.getElementById('modalImage').src = imageUrl;
+        }
+
+        function closeModal() {
+            document.getElementById('imageModal').style.display = 'none';
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            const searchTerm = e.target.value.toLowerCase();
+            const filteredProducts = products.filter(product =>
+                product.name.toLowerCase().includes(searchTerm) ||
+                product.description.toLowerCase().includes(searchTerm)
+            );
+            renderProducts(filteredProducts);
+        });
+
+        // Cart modal functions
+        function updateCartModal() {
+            const cartItemsContainer = document.getElementById('cartItems');
+            const total = cartItems.reduce((sum, item) => sum + item.price, 0);
+            
+            cartItemsContainer.innerHTML = cartItems.map((item, index) => `
+                <div class="cart-item">
+                    <div>
+                        <h4>${item.name}</h4>
+                        <p>$${item.price}</p>
+                    </div>
+                    <button onclick="removeFromCart(${index})">Remove</button>
+                </div>
+            `).join('');
+
+            document.getElementById('cartTotal').textContent = total.toFixed(2);
+            document.getElementById('cartCountModal').textContent = cartItems.length;
+        }
+
+        function removeFromCart(index) {
+            cartItems.splice(index, 1);
+            updateCartCount();
+            updateCartModal();
+            localStorage.setItem('cart', JSON.stringify(cartItems));
+        }
+
+        // Toggle cart modal
+        document.getElementById('cartCounter').addEventListener('click', () => {
+            document.getElementById('cartModal').style.display = 'block';
+            updateCartModal();
+        });
+
+        // Close modal when clicking outside
+        window.onclick = function(event) {
+            const modal = document.getElementById('cartModal');
+            if (event.target === modal) {
+                modal.style.display = 'none';
+            }
+        }
+
+        // Billing section
+        function showBilling() {
+            const billingHTML = `
+                <div class="billing-form">
+                    <h3>Billing Details</h3>
+                    <input type="text" placeholder="Full Name" required>
+                    <input type="email" placeholder="Email" required>
+                    <input type="tel" placeholder="Phone Number" required>
+                    <button class="checkout-btn" onclick="processPayment()">Pay Now</button>
+                </div>
+            `;
+            document.getElementById('cartItems').innerHTML = billingHTML;
+        }
+
+        function processPayment() {
+            alert('Payment processed successfully!');
+            cartItems = [];
+            updateCartCount();
+            updateCartModal();
+            localStorage.removeItem('cart');
+            document.getElementById('cartModal').style.display = 'none';
+        }
+    </script>
+
+
+
+
+
+</body>
+</html>

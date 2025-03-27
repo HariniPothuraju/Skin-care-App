@@ -1,0 +1,203 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Skincare Pharmacy</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: Arial, sans-serif;
+        }
+
+        /* Header Styles */
+        header {
+            background-color: rgba(255, 255, 255, 0.9);
+            padding: 20px;
+            position: fixed;
+            width: 100%;
+            z-index: 1000;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            font-weight: bold;
+            color: #1a5276;
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #1a5276;
+        }
+
+        /* Hero Section with Slider */
+        .hero {
+            height: 100vh;
+            position: relative;
+        }
+
+        .slideshow-container {
+            position: relative;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        .mySlides {
+            position: absolute;
+            width: 100%;
+            height: 100%;
+            opacity: 0;
+            transition: opacity 1s ease-in-out;
+        }
+
+        .mySlides.active {
+            opacity: 1;
+        }
+
+        .mySlides img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        /* Section 2 */
+        .section2 {
+            height: 100vh;
+            background-color: #f9ebeb;
+            padding: 100px 20px;
+            text-align: center;
+        }
+
+        /* Section 3 */
+        .section3 {
+            height: 100vh;
+            background-color: #e8f6f3;
+            padding: 100px 20px;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Apothecary+</div>
+            <div class="nav-links">
+                <a href="file:///C:/Users/HP/Desktop/skincare1/home.html">Home</a>
+                <a href="file:///C:/Users/HP/Desktop/skincare1/se.html">🌞❄️ Seasonal Skin Guide 🌿💧</a>
+                <a href="file:///C:/Users/HP/Desktop/skincare1/checker.html"> Ingredient Checker</a>
+                <a href="file:///C:/Users/HP/Desktop/skincare1/chatbox.html">🗨️ Skin Consultation Chatbot</a>
+            </div>
+        </nav>
+    </header>
+
+    <!-- Section 1: Hero with Slider -->
+    <section class="hero" id="home">
+        <div class="slideshow-container">
+            <div class="mySlides active">
+                <img src="https://images.squarespace-cdn.com/content/v1/5ce387f8bb0c980001dfea15/1646680908581-NAKWJFXQ1E1CR0X5PJX9/35.jpg?format=2500w" alt="Skincare 1">
+            </div>
+            <div class="mySlides">
+                <img src="https://edit.sundayriley.com/wp-content/uploads/2021/12/gold-skincare-4-the-sunday-edit-2048x1368.jpg" alt="Skincare 2">
+            </div>
+            <div class="mySlides">
+                <img src="https://knottstdermatology.com/wp-content/uploads/2024/05/Blog-Banner-10.jpg" alt="Skincare 3">
+            </div>
+        </div>
+    </section>
+
+        <script>
+        // Image Slider
+        let slideIndex = 0;
+        const slides = document.querySelectorAll('.mySlides');
+
+        function showSlide(n) {
+            slides.forEach(slide => slide.classList.remove('active'));
+            slides[n].classList.add('active');
+        }
+
+        function nextSlide() {
+            slideIndex = (slideIndex + 1) % slides.length;
+            showSlide(slideIndex);
+        }
+
+        // Auto slide change every 5 seconds
+        setInterval(nextSlide, 5000);
+
+        // Initial slide show
+        showSlide(slideIndex);
+    </script>
+    <style>
+        /* ... (keep previous styles unchanged) ... */
+
+        /* Section 2 - Products */
+        .section2 {
+            height: 100vh;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(rgba(0,0,0,0.5), rgba(0,0,0,0.5)),
+                        url('https://img.medestheticsmag.com/files/base/allured/all/image/2023/03/AdobeStock_206942118.6418b4649875b.png?auto=format%2Ccompress&dpr=2&q=70&rect=0%2C183%2C1920%2C1080&w=700') center/cover;
+            color: white;
+        }
+
+        /* Section 3 - About */
+        .section3 {
+            height: 100vh;
+            padding: 100px 20px;
+            text-align: center;
+            position: relative;
+            background: linear-gradient(rgba(255,255,255,0.7), rgba(255,255,255,0.7)),
+                        url('https://bromabakery.com/wp-content/uploads/2019/02/Broke-Girls-Guide-to-Skincare-3-1067x1600.jpg') center/cover;
+            color: #1a5276;
+        }
+
+        /* Overlay for better text readability */
+        .section2::before,
+        .section3::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            z-index: 0;
+        }
+
+        .section2 h1,
+        .section2 p,
+        .section3 h1,
+        .section3 p {
+            position: relative;
+            z-index: 1;
+        }
+    </style>
+</head>
+<body>
+    <!-- ... (keep body content unchanged) ... -->
+
+    <!-- Section 2 -->
+    <section class="section2" id="products">
+        <h1>Our Products</h1>
+        <p>Discover our premium skincare collection</p>
+    </section>
+
+    <!-- Section 3 -->
+    <section class="section3" id="about">
+        <h1>About Us</h1>
+        <p>Your trusted skincare experts</p>
+    </section>
+
+</body>
+</html>

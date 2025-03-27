@@ -1,0 +1,207 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Seasonal Skin Guide</title>
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<style>
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+    margin: 0;
+    padding: 0;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: white;
+}
+
+h1 {
+    font-size: 24px;
+    color: #333;
+}
+
+h2 {
+    margin: 20px 0;
+}
+
+button {
+    margin: 10px;
+    padding: 10px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    background-color: #007bff;
+    color: white;
+}
+
+button:hover {
+    background-color: #0056b3;
+}
+
+#winter { background: #cce7ff; }
+#spring { background: #d4edda; }
+#summer { background: #ffeeba; }
+#autumn { background: #f8d7da; }
+
+</style>
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+    margin: 0;
+    padding: 0;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed; /* Ensures full-page background */
+    color: white;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.8); /* Semi-transparent background */
+    color: black;
+}
+
+</style>
+
+<style>
+
+body {
+    font-family: Arial, sans-serif;
+    text-align: center;
+    transition: background 0.5s ease-in-out;
+    margin: 0;
+    padding: 0;
+    background-image: url('https://www.olanskydermatology.com/wp-content/uploads/2021/03/skincare-products-4-1200x627.jpg.webp'); /* Default background image */
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+.container {
+    max-width: 600px;
+    margin: 50px auto;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+    background: rgba(255, 255, 255, 0.85); /* Semi-transparent white */
+    color: black;
+}
+
+/* Change background for different seasons */
+#winter {
+    background-image: url('winter-image-url.jpg');
+}
+
+#spring {
+    background-image: url('spring-image-url.jpg');
+}
+
+#summer {
+    background-image: url('summer-image-url.jpg');
+}
+
+#autumn {
+    background-image: url('autumn-image-url.jpg');
+}
+
+</style>
+<body>
+    <div class="container">
+        <h1>🌞❄️ Seasonal Skin Guide 🌿💧</h1>
+        <div id="season-display">
+            <h2 id="season-title"></h2>
+            <p id="season-tips"></p>
+            <ul id="season-products"></ul>
+        </div>
+        <button onclick="changeSeason('prev')">⬅️ Previous</button>
+        <button onclick="changeSeason('next')">Next ➡️</button>
+    </div>
+
+    <script>
+const seasons = [
+    {
+        name: "Winter ❄️",
+        tips: "Hydrate your skin with a rich moisturizer. Avoid long hot showers!",
+        products: ["Heavy Moisturizer", "Lip Balm", "Hydrating Serum"],
+        bg: "winter"
+    },
+    {
+        name: "Spring 🌸",
+        tips: "Switch to lightweight skincare, use gentle exfoliators, and SPF daily.",
+        products: ["Light Moisturizer", "Exfoliating Scrub", "SPF 30+"],
+        bg: "spring"
+    },
+    {
+        name: "Summer ☀️",
+        tips: "Apply sunscreen regularly, stay hydrated, and use oil-free products.",
+        products: ["Oil-Free Moisturizer", "Sunscreen SPF 50", "Aloe Vera Gel"],
+        bg: "summer"
+    },
+    {
+        name: "Autumn 🍂",
+        tips: "Repair summer damage with nourishing serums and hydrating masks.",
+        products: ["Hydrating Mask", "Vitamin C Serum", "Gentle Cleanser"],
+        bg: "autumn"
+    }
+];
+
+let currentSeasonIndex = getSeasonIndex();
+
+function getSeasonIndex() {
+    const month = new Date().getMonth();
+    if (month <= 1 || month === 11) return 0; // Winter
+    if (month >= 2 && month <= 4) return 1; // Spring
+    if (month >= 5 && month <= 7) return 2; // Summer
+    return 3; // Autumn
+}
+
+function displaySeason(index) {
+    const season = seasons[index];
+    document.getElementById("season-title").innerText = season.name;
+    document.getElementById("season-tips").innerText = season.tips;
+    
+    const productList = document.getElementById("season-products");
+    productList.innerHTML = "";
+    season.products.forEach(product => {
+        const li = document.createElement("li");
+        li.innerText = product;
+        productList.appendChild(li);
+    });
+
+    document.body.className = season.bg;
+}
+
+function changeSeason(direction) {
+    if (direction === "next") {
+        currentSeasonIndex = (currentSeasonIndex + 1) % seasons.length;
+    } else {
+        currentSeasonIndex = (currentSeasonIndex - 1 + seasons.length) % seasons.length;
+    }
+    displaySeason(currentSeasonIndex);
+}
+
+// Initialize with the current season
+displaySeason(currentSeasonIndex);
+
+</script>
+</body>
+</html>

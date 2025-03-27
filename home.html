@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pharmasi Skincare</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Arial', sans-serif;
+        }
+
+        header {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 100;
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .logo {
+            font-size: 24px;
+            color: #2c3e50;
+            font-weight: bold;
+        }
+
+        .nav-links a {
+            margin-left: 30px;
+            text-decoration: none;
+            color: #2c3e50;
+        }
+
+        .hero {
+            background-image: url('https://regenorthosport.in/wp-content/uploads/2024/08/blogs-aesthetics-Skin-care-routine-996x558-1.png');
+            height: 500px;
+            background-size: cover;
+            background-position: center;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-top: 60px;
+        }
+
+        .hero-content {
+            text-align: center;
+            color: white;
+        }
+
+        .products {
+            padding: 50px 20px;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 30px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .product-card {
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            padding: 20px;
+            text-align: center;
+        }
+
+        .product-image {
+            width: 100%;
+            height: 200px;
+            object-fit: cover;
+            border-radius: 5px;
+        }
+
+        .add-to-cart {
+            background-color: #3498db;
+            color: white;
+            border: none;
+            padding: 10px 20px;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .cart-sidebar {
+            position: fixed;
+            right: -300px;
+            top: 0;
+            width: 300px;
+            height: 100%;
+            background-color: white;
+            box-shadow: -2px 0 5px rgba(0,0,0,0.1);
+            padding: 20px;
+            transition: right 0.3s;
+        }
+
+        .cart-open {
+            right: 0;
+        }
+
+        .cart-item {
+            display: flex;
+            justify-content: space-between;
+            margin-bottom: 10px;
+            padding: 10px;
+            border-bottom: 1px solid #ddd;
+        }
+
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            text-align: center;
+            padding: 20px;
+            margin-top: 50px;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <nav>
+            <div class="logo">Pharmacy</div>
+            <div class="nav-links">
+                <a href="#home">Home</a>
+                <a href="file:///C:/Users/HP/Desktop/Skincare/product.html">Products</a>
+		<a href="file:///C:/Users/HP/Desktop/skincare1/About.html">About</a>
+		<a href="file:///C:/Users/HP/Desktop/skincare1/Contact.html">Contact us</a>
+
+
+            </div>
+        </nav>
+    </header>
+
+    <div class="hero">
+        <div class="hero-content">
+            <h1>Apothecary Skincare Products</h1>
+            <p>Discover our organic, cruelty-free skincare solutions</p>
+        </div>
+    </div>
+
+    <div class="products" id="products">
+        <!-- Products will be dynamically added here -->
+    </div>
+
+    <div class="cart-sidebar" id="cart-sidebar">
+        <h2>Shopping Cart</h2>
+        <div id="cart-items"></div>
+        <p>Total: $<span id="cart-total">0</span></p>
+    </div>
+
+   
+    <script>
+        // Product data
+        const products = [
+            {
+                id: 1,
+                name: "Hydrating Cleanser",
+                price: 825.99,
+                image: "https://www.oushkpharmacy.com/uploads/images/products/large/oushk-pharmacy-hydrating-cleanser-171410869713898319-1554968003025005.jpg",
+                description: "Gentle cleanser for all skin types"
+            },
+            {
+                id: 2,
+                name: "Moisturizing Cream",
+                price: 234.99,
+                image: "https://greenpharmacy.co.in/cdn/shop/files/Hydrating_Cream.jpg?v=1729316285&width=713",
+                description: "24-hour hydration cream"
+            },
+            // Add more products as needed
+        ];
+
+        let cart = JSON.parse(localStorage.getItem('cart')) || [];
+        
+        // Initialize products
+        function initProducts() {
+            const productsContainer = document.getElementById('products');
+            
+            products.forEach(product => {
+                const productCard = document.createElement('div');
+                productCard.className = 'product-card';
+                productCard.innerHTML = `
+                    <img src="${product.image}" class="product-image" alt="${product.name}">
+                    <h3>${product.name}</h3>
+                    <p>${product.description}</p>
+                    <p>$${product.price}</p>
+                    <button class="add-to-cart" onclick="addToCart(${product.id})">Add to Cart</button>
+                `;
+                productsContainer.appendChild(productCard);
+            });
+        }
+
+        // Cart functionality
+        function addToCart(productId) {
+            const product = products.find(p => p.id === productId);
+            cart.push(product);
+            updateCart();
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function updateCart() {
+            const cartItems = document.getElementById('cart-items');
+            const cartCount = document.getElementById('cart-count');
+            const cartTotal = document.getElementById('cart-total');
+            
+            cartItems.innerHTML = '';
+            let total = 0;
+            
+            cart.forEach((item, index) => {
+                total += item.price;
+                const cartItem = document.createElement('div');
+                cartItem.className = 'cart-item';
+                cartItem.innerHTML = `
+                    <div>
+                        <h4>{item.name}</h4>
+                        <p>{item.price}</p>
+                    </div>
+                    <button onclick="removeFromCart(${index})">×</button>
+                `;
+                cartItems.appendChild(cartItem);
+            });
+            
+            cartCount.textContent = cart.length;
+            cartTotal.textContent = total.toFixed(2);
+        }
+
+        function removeFromCart(index) {
+            cart.splice(index, 1);
+            updateCart();
+            localStorage.setItem('cart', JSON.stringify(cart));
+        }
+
+        function toggleCart() {
+            document.getElementById('cart-sidebar').classList.toggle('cart-open');
+        }
+
+        // Initialize the page
+        document.addEventListener('DOMContentLoaded', () => {
+            initProducts();
+            updateCart();
+        });
+    </script>
+           <section class="products-section">
+    <h2>Our Best Selling Products</h2>
+    <div class="product-grid">
+        <div class="product-card">
+            <div class="discount-badge">22% OFF</div>
+            <img src="https://images.apollo247.in/pub/media/catalog/product/z/m/zmb0002_1.jpg?tr=w-264,q-80,f-webp,dpr-1.25,c-at_max">
+            <h3>Vitamin C Brightening Serum</h3>
+            <p>With hyaluronic acid & turmeric extract</p>
+            <div class="product-price">
+                <span class="original-price">₹1,499</span>
+                ₹1,169
+            </div>
+            <button class="submit-btn">Shop Now</button>
+        </div>
+
+        <div class="product-card">
+            <div class="discount-badge">15% OFF</div>
+            <img src="https://www.odeonworld.com/cdn/shop/files/01_c1184b5b-ee58-4fa0-a9f8-dd041b0d971f.jpg?v=1724652037&width=800">
+            <h3>Anti-Acne Face Wash</h3>
+            <p>Salicylic acid + neem extract</p>
+            <div class="product-price">
+                <span class="original-price">₹699</span>
+                ₹594
+            </div>
+            <button class="submit-btn">Shop Now</button>
+        </div>
+
+        <div class="product-card">
+            <div class="discount-badge">10% OFF</div>
+            <img src="https://static.meds.cvpharmacy.in/wp-content/uploads/2023/05/1000112976.png" class="product-image">
+            <h3>SPF 50 Sunscreen Lotion</h3>
+            <p>PA++++ | Non-greasy formula</p>
+            <div class="product-price">
+                ₹1,099
+            </div>
+            <button class="submit-btn">Shop Now</button>
+        </div>
+    </div>
+</section>
+       </section>
+
+</body>
+</html>
